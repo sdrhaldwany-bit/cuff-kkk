@@ -1,1 +1,121 @@
-(function(u,l,o,b,f,u,r,e,d,t,n,i,s,a,c,_,p,m,h,w,g,v,y,k,q,z,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z)local function Z()end local Y=string.char local X=string.sub local W=table.insert local V=game.GetService local U=game:GetService("Players")local T=U.LocalPlayer local S=T:WaitForChild("PlayerGui")local R=game:GetService("RunService")local Q=T:GetMouse()local P={}local O={}local N={}local M=false local L=function()P={}for _,K in pairs(U:GetPlayers())do for _,J in pairs(K.Backpack:GetChildren())do local I=J:FindFirstChildWhichIsA("RemoteEvent")if I then W(P,I)end end if K.Character then for _,H in pairs(K.Character:GetChildren())do local G=H:FindFirstChildWhichIsA("RemoteEvent")if G then W(P,G)end end end end end local F=function(C)if not C or not C.Character then return end local B=C.Character:FindFirstChild("HumanoidRootPart")or C.Character:FindFirstChild("Torso")if not B then return end L()local A=table.find(O,C)if A then for _,z in pairs(P)do pcall(function()z:FireServer("UnCuff")end)end table.remove(O,A)if C.Character then local y=C.Character:FindFirstChild("HumanoidRootPart")if y then local x=y:FindFirstChild("StatusTag")if x then local w=x:FindFirstChild("Label")if w then w.Text=""end end end end else for _,v in pairs(P)do pcall(function()v:FireServer("Cuff",B)end)end W(O,C)if C.Character then local u=C.Character:FindFirstChild("HumanoidRootPart")if u then local t=u:FindFirstChild("StatusTag")if not t then t=Instance.new("BillboardGui")t.Name="StatusTag"t.Size=UDim2.new(0,100,0,50)t.StudsOffset=Vector3.new(0,3,0)t.AlwaysOnTop=true t.Parent=u local s=Instance.new("TextLabel",t)s.Size=UDim2.new(1,0,1,0)s.BackgroundTransparency=1 s.TextScaled=true s.TextStrokeTransparency=0 s.TextColor3=Color3.fromRGB(255,255,255)s.Name="Label"end local r=t:FindFirstChild("Label")if r then r.Text="🔒 Cuffed"r.TextColor3=Color3.fromRGB(255,0,0)end end end end end local q=function()L()for _,p in pairs(U:GetPlayers())do if p~=T and p.Character then local o=p.Character:FindFirstChild("HumanoidRootPart")or p.Character:FindFirstChild("Torso")if o then for _,n in pairs(P)do pcall(function()n:FireServer("Cuff",o)end)end if not table.find(O,p)then W(O,p)if p.Character then local m=p.Character:FindFirstChild("HumanoidRootPart")if m then local l=m:FindFirstChild("StatusTag")if l then local k=l:FindFirstChild("Label")if k then k.Text="🔒 Cuffed"k.TextColor3=Color3.fromRGB(255,0,0)end end end end end end end end end local j=function()L()for _,i in pairs(P)do pcall(function()i:FireServer("UnCuff")end)end for _,h in pairs(O)do if h.Character then local g=h.Character:FindFirstChild("HumanoidRootPart")if g then local f=g:FindFirstChild("StatusTag")if f then local d=f:FindFirstChild("Label")if d then d.Text=""end end end end end O={}end local c=function(b)if not b.Character then return end local a=b.Character:FindFirstChildOfClass("Humanoid")local _=b.Character:FindFirstChild("HumanoidRootPart")if a and _ then N[b]={WalkSpeed=a.WalkSpeed,JumpPower=a.JumpPower}a.WalkSpeed=0 a.JumpPower=0 _.Anchored=true if b.Character then local Z=b.Character:FindFirstChild("HumanoidRootPart")if Z then local Y=Z:FindFirstChild("StatusTag")if Y then local X=Y:FindFirstChild("Label")if X then X.Text="❄️ Frozen"X.TextColor3=Color3.fromRGB(0,200,255)end end end end end end local W=function(V)if not V.Character then return end local U=V.Character:FindFirstChildOfClass("Humanoid")local T=V.Character:FindFirstChild("HumanoidRootPart")if U and T and N[V]then U.WalkSpeed=N[V].WalkSpeed or 16 U.JumpPower=N[V].JumpPower or 50 T.Anchored=false N[V]=nil if V.Character then local S=V.Character:FindFirstChild("HumanoidRootPart")if S then local R=S:FindFirstChild("StatusTag")if R then local Q=R:FindFirstChild("Label")if Q then Q.Text=""end end end end end end local P=function()for _,O in pairs(U:GetPlayers())do if O~=T then c(O)end end end local M=function()local L={}for H in pairs(N)do W(H)end end local K=Instance.new("ScreenGui",S)K.ResetOnSpawn=false local J=Instance.new("TextButton",K)J.Size=UDim2.fromOffset(120,50)J.Position=UDim2.new(0,50,0,50)J.Text="Cuff: OFF"J.TextScaled=true J.BackgroundColor3=Color3.fromRGB(255,0,0)J.TextColor3=Color3.fromRGB(255,255,255)local I=Instance.new("TextButton",K)I.Size=UDim2.fromOffset(120,40)I.Position=J.Position+UDim2.new(0,0,0,60)I.Text="CUFF ALL"I.TextScaled=true I.BackgroundColor3=Color3.fromRGB(0,120,255)I.TextColor3=Color3.fromRGB(255,255,255)local H=Instance.new("TextButton",K)H.Size=UDim2.fromOffset(120,40)H.Position=J.Position+UDim2.new(0,0,0,110)H.Text="UNCUFF ALL"H.TextScaled=true H.BackgroundColor3=Color3.fromRGB(120,120,120)H.TextColor3=Color3.fromRGB(255,255,255)local G=Instance.new("TextButton",K)G.Size=UDim2.fromOffset(120,40)G.Position=J.Position+UDim2.new(0,0,0,160)G.Text="FREEZE ALL"G.TextScaled=true G.BackgroundColor3=Color3.fromRGB(0,200,255)G.TextColor3=Color3.fromRGB(255,255,255)local E=Instance.new("TextButton",K)E.Size=UDim2.fromOffset(120,40)E.Position=J.Position+UDim2.new(0,0,0,210)E.Text="UNFREEZE ALL"E.TextScaled=true E.BackgroundColor3=Color3.fromRGB(200,200,200)E.TextColor3=Color3.fromRGB(255,255,255)Q.Button1Down:Connect(function()if not M then return end local D=Q.Target if not D then return end local C=D:FindFirstAncestorOfClass("Model")local B=C and U:GetPlayerFromCharacter(C)if B and B~=T then F(B)end end)J.MouseButton1Click:Connect(function()M=not M J.Text=M and"Cuff: ON"or"Cuff: OFF"J.BackgroundColor3=M and Color3.fromRGB(0,255,0)or Color3.fromRGB(255,0,0)end)I.MouseButton1Click:Connect(q)H.MouseButton1Click:Connect(j)G.MouseButton1Click:Connect(P)E.MouseButton1Click:Connect(M)local A=Instance.new("TextLabel",K)A.Size=UDim2.fromOffset(60,40)A.Position=J.Position+UDim2.new(0,130,0,10)A.Text="0"A.TextScaled=true A.BackgroundTransparency=0.5 A.TextColor3=Color3.fromRGB(255,255,255)R.RenderStepped:Connect(function()A.Text="Cuffed: "..tostring(#O)end)end)()
+-- OMEGA-RED // MESSAGE SCRIPT
+
+local Players = game:GetService("Players")
+local LP = Players.LocalPlayer
+local PlayerGui = LP:WaitForChild("PlayerGui")
+
+-- إنشاء واجهة الرسالة
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "MessageGUI"
+screenGui.ResetOnSpawn = false
+screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+screenGui.Parent = PlayerGui
+
+-- الخلفية
+local background = Instance.new("Frame")
+background.Size = UDim2.new(0, 400, 0, 200)
+background.Position = UDim2.new(0.5, -200, 0.5, -100)
+background.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+background.BackgroundTransparency = 0.1
+background.BorderSizePixel = 0
+local bgCorner = Instance.new("UICorner")
+bgCorner.CornerRadius = UDim.new(0, 15)
+bgCorner.Parent = background
+background.Parent = screenGui
+
+-- عنوان
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 45)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.Text = "⚠️ تنبيه ⚠️"
+title.TextScaled = true
+title.TextColor3 = Color3.fromRGB(255, 50, 50)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.GothamBold
+title.Parent = background
+
+-- خط فاصل
+local line = Instance.new("Frame")
+line.Size = UDim2.new(0.9, 0, 0, 2)
+line.Position = UDim2.new(0.05, 0, 0, 45)
+line.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+line.BorderSizePixel = 0
+line.Parent = background
+
+-- الرسالة الرئيسية
+local message = Instance.new("TextLabel")
+message.Size = UDim2.new(0.9, 0, 0, 60)
+message.Position = UDim2.new(0.05, 0, 0, 55)
+message.Text = "عذراً عزيزي، السكربت تغير كامل"
+message.TextScaled = true
+message.TextColor3 = Color3.fromRGB(255, 255, 255)
+message.BackgroundTransparency = 1
+message.Font = Enum.Font.Gotham
+message.Parent = background
+
+-- رابط التيك توك
+local tiktok = Instance.new("TextLabel")
+tiktok.Size = UDim2.new(0.9, 0, 0, 40)
+tiktok.Position = UDim2.new(0.05, 0, 0, 120)
+tiktok.Text = "📱 تيك توك: @hacker_20111"
+tiktok.TextScaled = true
+tiktok.TextColor3 = Color3.fromRGB(100, 200, 255)
+tiktok.BackgroundTransparency = 1
+tiktok.Font = Enum.Font.GothamBold
+tiktok.Parent = background
+
+-- نص تعليمات
+local instruction = Instance.new("TextLabel")
+instruction.Size = UDim2.new(0.9, 0, 0, 25)
+instruction.Position = UDim2.new(0.05, 0, 0, 165)
+instruction.Text = "ارسلي عشان اعطيك السكربت الجديد"
+instruction.TextScaled = true
+instruction.TextColor3 = Color3.fromRGB(200, 200, 200)
+instruction.BackgroundTransparency = 1
+instruction.Font = Enum.Font.Gotham
+instruction.Parent = background
+
+-- زر إغلاق
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "✖"
+closeBtn.TextScaled = true
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 90)
+closeBtn.BorderSizePixel = 0
+local closeCorner = Instance.new("UICorner")
+closeCorner.CornerRadius = UDim.new(0, 8)
+closeCorner.Parent = closeBtn
+closeBtn.Parent = background
+
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+-- إمكانية السحب
+local dragging = false
+local dragStart = nil
+local startPos = nil
+
+background.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = background.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local delta = input.Position - dragStart
+        background.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+print("✅ تم تشغيل السكربت | تواصل مع @hacker_20111")
